@@ -1,0 +1,21 @@
+<html>
+<head>
+	<link rel="stylesheet" href="index.css" >
+</head>
+<body>
+	<div class="main">
+		<img id="pausedGif" src="0.gif" alt="pepeListen" width=30% />
+		<img id="playedGif" src="tenor.gif" alt="pepeListen" width=30% />
+	</div>
+	<script>
+		const audio = new Audio('portwave.mp3');
+		window.onload = function() {
+  			document.querySelector('#pausedGif').addEventListener('click', function (e) {
+    			audio.play();
+  				document.getElementById('pausedGif').style.display = 'none';
+  				document.getElementById('playedGif').style.display = 'inline';
+  			});
+		};
+	</script>
+</body>
+</html>

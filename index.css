@@ -1,0 +1,16 @@
+body {
+	background-color: #fafcf9;
+	padding-top: 10%;
+}
+
+.main {
+	text-align: center;
+}
+
+#pausedGif {
+	cursor: pointer;
+}
+
+#playedGif {
+	display: none;
+}
