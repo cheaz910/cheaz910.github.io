@@ -4,18 +4,32 @@
 </head>
 <body>
 	<div class="main">
-		<img id="pausedGif" src="0.gif" alt="pepeListen" width=30% />
-		<img id="playedGif" src="tenor.gif" alt="pepeListen" width=30% />
+		<div class='text'>
+			До начала потокового вещания
+		</div>
+		<div id='timer'>
+			
+		</div>
+		<img src='file.gif' />
 	</div>
 	<script>
-		const audio = new Audio('portwave.mp3'); // -
-		window.onload = function() {
-  			document.querySelector('#pausedGif').addEventListener('click', function (e) {
-    			audio.play();
-  				document.getElementById('pausedGif').style.display = 'none';
-  				document.getElementById('playedGif').style.display = 'inline';
-  			});
-		};
+		function getResult(countDownDate) {
+			let now = new Date().getTime()
+			let distance = countDownDate - now
+			let hours = Math.floor(distance % (1000 * 60 * 60 * 24) / (1000 * 60 * 60))
+			let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+			let seconds = Math.floor((distance % (1000 * 60)) / 1000)
+			return hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0')
+		}
+		const waitingTime = new Date('Jun 1, 2021 20:00:00 +0500').getTime()
+		document.getElementById('timer').innerHTML = getResult(waitingTime)
+		let x = setInterval(() => {
+			document.getElementById('timer').innerHTML = getResult(waitingTime)
+			if (waitingTime - new Date().getTime() < 0) {
+				clearInterval(x)
+				document.getElementById('timer').innerHTML = 'EXPIRED'
+			}
+		}, 1000)
 	</script>
 </body>
 </html>
