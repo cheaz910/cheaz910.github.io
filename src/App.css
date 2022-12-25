@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  padding: 50px;
 }
 
 .App-logo {
@@ -35,4 +35,17 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.QuestionContainer:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.Counter {
+  position: fixed;
+  right: 0;
+  top: 0;
+  border: 1px solid black;
+  background-color: white;
+  padding: 5px;
 }
