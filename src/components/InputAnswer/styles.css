@@ -1,0 +1,38 @@
+.Question {
+  padding: 10px;
+  box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+  border-radius: 10px;
+}
+
+.Question:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.Title {
+  margin-bottom: 10px;
+}
+
+.Title__true {
+  background-color: #66cc91;
+}
+
+.Title__false {
+  background-color: #f47174;
+}
+
+.Answer:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+.Answer__true {
+  background-color: #66cc91;
+}
+
+.Answer__false {
+  background-color: #F47174;
+}
+
+.Button {
+  display: block;
+  margin-top: 5px;
+}

@@ -2,12 +2,12 @@ import { useState, useEffect, memo } from 'react';
 
 import './styles.css';
 
-function Question({onAnswer, id, question, answers, trueAnswer}) {
+function ImageAnswer({onAnswer, id, name, answers, trueAnswer}) {
   const [selected, setSelected] = useState('');
 
   return (
     <div className="Question">
-      <div className="Title">{question}</div>
+      <div className="Title"><img src={require(`../../images/${name}`)} /></div>
       <div className="Answers">
         {answers.map((answer, index) => (
           <div key={index} className={`Answer${selected !== '' && answer === trueAnswer ? ' Answer__true' : (answer === selected ? ' Answer__false' : '')}`}>
@@ -29,4 +29,4 @@ function Question({onAnswer, id, question, answers, trueAnswer}) {
   );
 }
 
-export default memo(Question);
+export default memo(ImageAnswer);

@@ -2,7 +2,7 @@ import { useState, useEffect, memo } from 'react';
 
 import './styles.css';
 
-function Question({onAnswer, id, question, answers, trueAnswer}) {
+const DefaultAnswer = ({question, trueAnswer, id, onAnswer, answers}) => {
   const [selected, setSelected] = useState('');
 
   return (
@@ -10,12 +10,16 @@ function Question({onAnswer, id, question, answers, trueAnswer}) {
       <div className="Title">{question}</div>
       <div className="Answers">
         {answers.map((answer, index) => (
-          <div key={index} className={`Answer${selected !== '' && answer === trueAnswer ? ' Answer__true' : (answer === selected ? ' Answer__false' : '')}`}>
+          <div key={index} className={`Answer${answer === selected && selected === trueAnswer ? ' Answer__true' : (selected !== '' && answer === selected ? ' Answer__false' : '')}`}>
             <input 
               disabled={selected !== ''} 
               onChange={() => {
                 setSelected(answer);
-                onAnswer(answer === trueAnswer);
+                if (answer === trueAnswer) {
+                  onAnswer(true);
+                } else {
+                  onAnswer(false);
+                }
               }} 
               id={`${id}-answer-${index}`} 
               name={`${id}-answer`} 
@@ -27,6 +31,4 @@ function Question({onAnswer, id, question, answers, trueAnswer}) {
       </div>
     </div>
   );
-}
-
-export default memo(Question);
+};
