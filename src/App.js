@@ -23,7 +23,6 @@ function App() {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="App">
-        <h4>Не хватает вопросов с изображением и соответствиями</h4>
         {questions.map((x, index) => (
           <div key={x.question} className="QuestionContainer">
             {x.type === "blanks" ? 
@@ -41,13 +40,15 @@ function App() {
               x.type === "image" ?
                 <ImageAnswer onAnswer={onAnswer} id={index} name={x.name} answers={x.answers} trueAnswer={x.trueAnswer} />
               :
+              x.type === "match" ?
+                <MatchAnswer onAnswer={onAnswer} first={x.first} second={x.second} trueAnswer={x.trueAnswer} question={x.question} />
+              :
                 ''
             )}
           </div>
         ))}
         <div className="Counter">{`Правильно ${count} из ${data.questions.length}`}</div>
       </div>
-      <MatchAnswer />
     </DndProvider>
   );
 }

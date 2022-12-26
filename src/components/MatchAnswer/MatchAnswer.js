@@ -72,18 +72,11 @@ export const Box = memo(function Box({ name, isDropped }) {
 });
 
 
-function MatchAnswer({onAnswer, id, question, answers, trueAnswer}) {
-  const [droppedBoxNames, setDroppedBoxNames] = useState([])
-  const [dustbins, setDustbins] = useState([
-    { value: 'На чем основана работа дифференциально-трансформаторного преобразователя -', lastDroppedItem: null },
-    { value: 'На чем основана работа реостатного преобразователя -', lastDroppedItem: null },
-    { value: 'На чем основана работа ферродинамического преобразователя -', lastDroppedItem: null },
-  ])
-  const [boxes] = useState([
-    { name: 'на изменении взаимной индуктивности обмоток', type: ItemTypes.BOX },
-    { name: 'на изменении сопротивления при перемещении движка', type: ItemTypes.BOX },
-    { name: 'на  изменении углового перемещения', type: ItemTypes.BOX },
-  ])
+function MatchAnswer({first, second, question, trueAnswer, onAnswer}) {
+  const [droppedBoxNames, setDroppedBoxNames] = useState([]);
+  const [dustbins, setDustbins] = useState(first.sort(() => Math.random() - 0.5).map(x => ({ value: x, lastDroppedItem: null })));
+  const [boxes] = useState(second.sort(() => Math.random() - 0.5).map(x => ({ name: x, type: ItemTypes.BOX })));
+  const [isTrue, setIsTrue] = useState();
   function isDropped(boxName) {
     return droppedBoxNames.indexOf(boxName) > -1
   }
@@ -105,7 +98,6 @@ function MatchAnswer({onAnswer, id, question, answers, trueAnswer}) {
       setDustbins((prev) => {
         const x = [...prev];
         const tIndex = dustbins.findIndex(e1 => e1.lastDroppedItem && e1.lastDroppedItem.name === name);
-        console.log('----', tIndex, name, dustbins);
         if (tIndex > -1) {
           x[tIndex].lastDroppedItem = null;
         }
@@ -119,11 +111,40 @@ function MatchAnswer({onAnswer, id, question, answers, trueAnswer}) {
     [droppedBoxNames, dustbins],
   )
 
+  const onSubmit = () => {
+      // check true or false
+      for (let i = 0; i < dustbins.length; i++) {
+        if (dustbins.lastDroppedItem === null) {
+          return;
+        }
+      }
+      for (let i = 0; i < first.length; i++) {
+        const dustbin = dustbins.find(x => x.value === first[i])
+        const t = trueAnswer.find(x => x[0] === first[i]);
+        console.log('zzzzzzzzzzzzzzz', t, dustbin)
+        if (!dustbin || !t) {
+          setIsTrue();
+          return;
+        }
+        if (dustbin.lastDroppedItem.name === t[1]) {
+          continue;
+        } else {
+          console.log(dustbin, t);
+          setIsTrue(false);
+          onAnswer(false);
+          return;
+        }
+      }
+      setIsTrue(true);
+      onAnswer(true);
+      console.log(dustbins, trueAnswer);
+  };
+
   return (
-    <div className={`Question`}>
-      <div className="Title">{''}</div>
-      <div>
-        <div style={{ overflow: 'hidden', clear: 'both' }}>
+    <div className={`Question${isTrue === true ? ' Title__true' : (isTrue === false ? ' Title__false' : '')}`}>
+      <div className="Title">{question}</div>
+      <div className="Container">
+        <div className="Dustbins" style={{ overflow: 'hidden', clear: 'both' }}>
           {dustbins.map(({ value, lastDroppedItem }, index) => (
             <Dustbin
               accept={[ItemTypes.BOX]}
@@ -134,7 +155,7 @@ function MatchAnswer({onAnswer, id, question, answers, trueAnswer}) {
             />
           ))}
         </div>
-        <div style={{ overflow: 'hidden', clear: 'both' }}>
+        <div className="Boxes" style={{ overflow: 'hidden', clear: 'both' }}>
           {boxes.map(({ name }, index) => (
             <Box
               name={name}
@@ -144,6 +165,8 @@ function MatchAnswer({onAnswer, id, question, answers, trueAnswer}) {
           ))}
         </div>
       </div>
+      <button onClick={onSubmit}>OK</button>
+      <span style={{color:'red', display: 'block'}}>В доке ответов не было, кто знает ответ - напишите</span>
     </div>
   );
 }

@@ -31,3 +31,20 @@
 .Title__false {
   background-color: #f47174;
 }
+
+.Dustbins {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Boxes {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.Container {
+  display: flex;
+  gap: 50px;
+}
